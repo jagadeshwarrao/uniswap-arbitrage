@@ -103,9 +103,9 @@ The reserves product remains constant during swaps — hence “constant functio
 
 For a circular path like `A → B → C → A`, we aim to maximize profit:
 
-[
+`[
 \max (\Delta a' - \Delta a)
-]
+]`
 
 subject to:
 [
@@ -236,4 +236,4 @@ especially across multiple DEXes like **Curve**, **Balancer**, or even cross-cha
 With **flash loans**, capital requirements can be eliminated —
 but success depends on precision, speed, and smart optimization.
 
-**Happy Hacking 💡**
+
