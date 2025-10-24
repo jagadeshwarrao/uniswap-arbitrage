@@ -85,15 +85,15 @@ def findArb(pairs, tokenIn, tokenOut, maxHops, currentPairs, path, circles):
 
 Uniswap follows a **Constant Function Market Maker (CFMM)** model:
 
-[
-(R_0 + r \Delta a)(R_1 - \Delta b) = R_0 R_1
-]
+```
+(R0 + r * Δa) * (R1 - Δb) = R0 * R1
+```
 
 Where:
 
-* ( R_0, R_1 ): reserves of tokens A and B
-* ( \Delta a, \Delta b ): input and output amounts
-* ( r = 1 - \text{fee} ): remaining ratio after swap fees
+* R0, R1: reserves of tokens A and B
+* Δa, Δb: input and output amounts
+* r = 1 - fee: remaining ratio after swap fees
 
 The reserves product remains constant during swaps — hence “constant function.”
 
@@ -103,45 +103,41 @@ The reserves product remains constant during swaps — hence “constant functio
 
 For a circular path like `A → B → C → A`, we aim to maximize profit:
 
-`[
-\max (\Delta a' - \Delta a)
-]`
+```
+max(Δa' - Δa)
+```
 
 subject to:
-[
-(R_0 + r\Delta a)(R_1 - \Delta b) = R_0R_1
-]
-[
-(R_1' + r\Delta b)(R_2 - \Delta c) = R_1'R_2
-]
-[
-(R_2' + r\Delta c)(R_3 - \Delta a') = R_2'R_3
-]
 
-For longer paths (`A → B → C → D → A`), we define **virtual pools** with parameters ( E_0, E_1 ), derived recursively from real pools.
+```
+(R0 + r * Δa) * (R1 - Δb) = R0 * R1
+(R1' + r * Δb) * (R2 - Δc) = R1' * R2
+(R2' + r * Δc) * (R3 - Δa') = R2' * R3
+```
+
+For longer paths (`A → B → C → D → A`), we define **virtual pools** with parameters E0, E1, derived recursively from real pools.
 
 #### Virtual Pool Formulas
 
-[
-E_0 = \frac{R_0 R_1'}{R_1' + R_1 r}
-]
-[
-E_1 = \frac{r R_1 R_2}{R_1' + R_1 r}
-]
+```
+E0 = (R0 * R1') / (R1' + R1 * r)
+E1 = (r * R1 * R2) / (R1' + R1 * r)
+```
 
 When a circular path is collapsed to a virtual pool `A → A`,
-if ( E_a < E_b ), an arbitrage opportunity exists.
+if Ea < Eb, an arbitrage opportunity exists.
 
 The profit is:
 
-[
-f = \Delta a' - \Delta a
-]
+```
+f = Δa' - Δa
+```
+
 and the **optimal input** is obtained from:
 
-[
-\Delta a = \frac{E_a E_b r - E_a r}{E_b - E_a r}
-]
+```
+Δa = (Ea * Eb * r - Ea * r) / (Eb - Ea * r)
+```
 
 ---
 
